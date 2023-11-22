@@ -1,0 +1,45 @@
+module EncoderDecoder (
+    input [2:0] A,
+    output [1:0] Y,
+    output [2:0] Z
+);
+
+    // Priority encoder
+    assign Y = (A == 3'b000) ? 2'b00 :
+              (A == 3'b001) ? 2'b01 :
+              (A == 3'b010) ? 2'b10 :
+              2'b11;
+
+    // Binary to Gray code conversion
+    assign Z[2] = A[2];
+    assign Z[1] = A[2] ^ A[1];
+    assign Z[0] = A[1] ^ A[0];
+
+endmodule
+module EncoderDecoder_Testbench;
+    reg [2:0] A;
+    wire [1:0] Y;
+    wire [2:0] Z;
+
+    // Instantiate the Encoder/Decoder module
+    EncoderDecoder uut (
+        .A(A),
+        .Y(Y),
+        .Z(Z)
+    );
+
+    // Stimulus
+    initial begin
+        // Test case 1
+        A = 3'b000;
+        #10 $display("Y=%b, Z=%b", Y, Z);
+
+        // Test case 2
+        A = 3'b011;
+        #10 $display("Y=%b, Z=%b", Y, Z);
+
+        // Add more test cases as needed
+
+        $finish; // End simulation
+    end
+endmodule
