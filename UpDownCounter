@@ -1,0 +1,43 @@
+module UpDownCounter (
+    input [3:0] Count,
+    input UP, DOWN,
+    input CLK,
+    output reg [3:0] NextCount
+);
+
+    // Synchronous up/down counter logic
+    always @(posedge CLK) begin
+        if (UP) NextCount <= Count + 1;
+        else if (DOWN) NextCount <= Count - 1;
+    end
+
+endmodule
+module UpDownCounter_Testbench;
+    reg [3:0] Count;
+    reg UP, DOWN, CLK;
+    reg [3:0] NextCount;
+
+    // Instantiate the Up/Down Counter module
+    UpDownCounter uut (
+        .Count(Count),
+        .UP(UP),
+        .DOWN(DOWN),
+        .CLK(CLK),
+        .NextCount(NextCount)
+    );
+
+    // Stimulus
+    initial begin
+        // Test case 1
+        UP = 1; DOWN = 0; CLK = 1; Count = 4'b1010; #10;
+        #10 $display("NextCount=%b", NextCount);
+
+        // Test case 2
+        UP = 0; DOWN = 1; CLK = 1; Count = 4'b0101; #10;
+        #10 $display("NextCount=%b", NextCount);
+
+        // Add more test cases as needed
+
+        $finish; // End simulation
+    end
+endmodule
