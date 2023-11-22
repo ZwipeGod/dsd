@@ -1,0 +1,38 @@
+module FourBitParallelAdder (
+    input [3:0] A,
+    input [3:0] B,
+    output [3:0] Sum,
+    output Cout
+);
+
+    assign {Cout, Sum} = A + B;
+
+endmodule
+module FourBitParallelAdder_Testbench;
+    reg [3:0] A, B;
+    wire [3:0] Sum;
+    wire Cout;
+
+    // Instantiate the 4-bit parallel adder module
+    FourBitParallelAdder uut (
+        .A(A),
+        .B(B),
+        .Sum(Sum),
+        .Cout(Cout)
+    );
+
+    // Stimulus
+    initial begin
+        // Test case 1
+        A = 4'b0101; B = 4'b1100;
+        #10 $display("Sum=%b, Cout=%b", Sum, Cout);
+
+        // Test case 2
+        A = 4'b1111; B = 4'b0001;
+        #10 $display("Sum=%b, Cout=%b", Sum, Cout);
+
+        // Add more test cases as needed
+
+        $finish; // End simulation
+    end
+endmodule
