@@ -1,0 +1,61 @@
+module FlipFlops (
+    input D, CLK, RST, J, K, S, T,
+    output reg Q_RS, Q_D, Q_JK, Q_T
+);
+
+    // RS Flip-Flop
+    always @(posedge CLK or posedge RST)
+        if (RST) Q_RS <= 1'b0;
+        else Q_RS <= D;
+
+    // D Flip-Flop
+    always @(posedge CLK or posedge RST)
+        if (RST) Q_D <= 1'b0;
+        else Q_D <= D;
+
+    // JK Flip-Flop
+    always @(posedge CLK or posedge RST)
+        if (RST) Q_JK <= 1'b0;
+        else if (J && ~K) Q_JK <= 1'b1;
+        else if (~J && K) Q_JK <= 1'b0;
+        else if (J && K) Q_JK <= ~Q_JK;
+        else if (T) Q_JK <= ~Q_JK;
+
+    // T Flip-Flop
+    always @(posedge CLK or posedge RST)
+        if (RST) Q_T <= 1'b0;
+        else if (T) Q_T <= ~Q_T;
+
+endmodule
+module FlipFlops_Testbench;
+    reg D, CLK, RST, J, K, S, T;
+    reg [1:0] Q_RS, Q_D, Q_JK, Q_T;
+
+    // Instantiate the Flip Flops module
+    FlipFlops uut (
+        .D(D),
+        .CLK(CLK),
+        .RST(RST),
+        .J(J),
+        .K(K),
+        .S(S),
+        .T(T),
+        .Q_RS(Q_RS),
+        .Q_D(Q_D),
+        .Q_JK(Q_JK),
+        .Q_T(Q_T)
+    );
+
+    // Stimulus
+    initial begin
+        // Test case 1
+        D = 1; CLK = 0; RST = 0; #10;
+        D = 0; CLK = 1; RST = 1; #10;
+        #10 $display("Q_RS=%b, Q_D=%b, Q_JK=%b, Q_T=%b", Q_RS, Q_D, Q_JK, Q_T);
+
+        // Test case 2
+        // Add more test cases as needed
+
+        $finish; // End simulation
+    end
+endmodule
