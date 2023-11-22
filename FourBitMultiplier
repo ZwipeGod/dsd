@@ -1,0 +1,37 @@
+module FourBitMultiplier (
+    input [3:0] A,
+    input [3:0] B,
+    output reg [7:0] Product
+);
+
+    always @(A or B) begin
+        Product = A * B;
+    end
+
+endmodule
+module FourBitMultiplier_Testbench;
+    reg [3:0] A, B;
+    wire [7:0] Product;
+
+    // Instantiate the 4-bit multiplier module
+    FourBitMultiplier uut (
+        .A(A),
+        .B(B),
+        .Product(Product)
+    );
+
+    // Stimulus
+    initial begin
+        // Test case 1
+        A = 4'b0101; B = 4'b1100;
+        #10 $display("Product=%b", Product);
+
+        // Test case 2
+        A = 4'b1111; B = 4'b0001;
+        #10 $display("Product=%b", Product);
+
+        // Add more test cases as needed
+
+        $finish; // End simulation
+    end
+endmodule
