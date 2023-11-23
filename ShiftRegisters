@@ -30,3 +30,36 @@ module ShiftRegisters (
     end
 
 endmodule
+
+module ShiftRegisters_Testbench;
+    reg [3:0] A;
+    reg SI, PI, CLK, S;
+    reg B, C, D;
+
+    // Instantiate the Shift Registers module
+    ShiftRegisters uut (
+        .A(A),
+        .SI(SI),
+        .PI(PI),
+        .CLK(CLK),
+        .S(S),
+        .B(B),
+        .C(C),
+        .D(D)
+    );
+
+    // Stimulus
+    initial begin
+        // Test case 1
+        SI = 1; PI = 0; CLK = 1; S = 0; A = 4'b1010; #10;
+        #10 $display("B=%b, C=%b, D=%b", B, C, D);
+
+        // Test case 2
+        SI = 0; PI = 1; CLK = 1; S = 1; A = 4'b0101; #10;
+        #10 $display("B=%b, C=%b, D=%b", B, C, D);
+
+        // Add more test cases as needed
+
+        $finish; // End simulation
+    end
+endmodule
