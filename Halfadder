@@ -1,38 +1,23 @@
-module HalfAdder (
-    input A, 
-    input B, 
-    output Sum, 
-    output Cout
-);
+module ha(a,b,s,c);
+input a,b;
+output s,c;
+xor (s,a,b);
+and (c,a,b);
+endmodule 
 
-    assign Sum = A ^ B;
-    assign Cout = A & B;
-
-endmodule
-module HalfAdder_Testbench;
-    reg A, B;
-    wire Sum, Cout;
-
-    // Instantiate the half adder module
-    HalfAdder uut (
-        .A(A),
-        .B(B),
-        .Sum(Sum),
-        .Cout(Cout)
-    );
-
-    // Stimulus
-    initial begin
-        // Test case 1
-        A = 0; B = 0;
-        #10 $display("Sum=%b, Cout=%b", Sum, Cout);
-
-        // Test case 2
-        A = 1; B = 0;
-        #10 $display("Sum=%b, Cout=%b", Sum, Cout);
-
-        // Add more test cases as needed
-
-        $finish; // End simulation
-    end
+module ha_tb;
+reg a,b,c;
+wire s,C;
+fad j(a,b,c,s,C);
+initial
+begin
+a=1'b0;b=1'b0;c=1'b0;
+#5;a=1'b0;b=1'b0;c=1'b1;
+#5;a=1'b0;b=1'b1;c=1'b0;
+#5;a=1'b0;b=1'b1;c=1'b1;
+#5;a=1'b1;b=1'b0;c=1'b0;
+#5;a=1'b1;b=1'b0;c=1'b1;
+#5;a=1'b1;b=1'b1;c=1'b0;
+#5;a=1'b1;b=1'b1;c=1'b1;
+end
 endmodule
